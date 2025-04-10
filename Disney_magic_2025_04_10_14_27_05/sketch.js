@@ -33,7 +33,6 @@ let handParticles = [];
 let my = [];
 let videoTexture;
 
-let resizedHeight = 0;
 
 function preload() {
   theShader = new p5.Shader(this.renderer, vertShader, fragShader);
@@ -47,7 +46,7 @@ function setup() {
   canvas.canvas.oncontextmenu = () => false; // Disable right-click menu
   noCursor();
 
-  shaderTexture = createGraphics(windowWidth, windowHeight, WEBGL);
+  shaderTexture = createGraphics(windowHeight*3/2, windowHeight, WEBGL);
   shaderTexture.noStroke();
 
   video = createCapture(VIDEO);
@@ -55,7 +54,7 @@ function setup() {
   video.hide();
 
   video2 = createCapture(VIDEO);
-  video2.size(windowWidth, windowWidth);
+  video2.size(windowWidth, windowHeight);
   video2.hide();
 
   bodyPose.detectStart(video2, gotPoses);
@@ -67,11 +66,12 @@ function setup() {
 }
 
 function draw() {
+  windowResized();
   push();
   translate(-windowWidth, 0);
   scale(-1, 1); // Flip horizontally
   imageMode(CENTER);
-  image(video2, -windowWidth, 0, windowHeight * 3/2, windowHeight);
+  image(video2, -windowWidth, 0, windowWidth, windowHeight);
   pop();
 
   noStroke();
@@ -224,9 +224,8 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   shaderTexture.resizeCanvas(windowWidth, windowHeight);
   video.size(windowWidth, windowWidth);
-  video2.size(windowWidth, windowWidth);
-  resizedHeight = windowHeight;
-  
+  video2.size(windowHeight*3/2, windowHeight);
+
 }
 
 function full_screen_action() {
