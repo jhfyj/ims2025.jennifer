@@ -46,7 +46,7 @@ function setup() {
   canvas.canvas.oncontextmenu = () => false; // Disable right-click menu
   noCursor();
 
-  shaderTexture = createGraphics(windowHeight*3/2, windowHeight, WEBGL);
+  shaderTexture = createGraphics(windowHeight*4/3, windowHeight, WEBGL);
   shaderTexture.noStroke();
 
   video = createCapture(VIDEO);
@@ -71,7 +71,11 @@ function draw() {
   translate(-windowWidth, 0);
   scale(-1, 1); // Flip horizontally
   imageMode(CENTER);
-  image(video2, -windowWidth, 0, windowWidth, windowHeight);
+  if(windowWidth > windowHeight*4/3){
+    image(video2, -windowWidth, 0, windowWidth, windowWidth*2/3);
+  }else if(windowHeight > windowWidth*2/3){
+    image(video2, -windowWidth, 0, windowHeight, windowHeight *4/3);
+  }
   pop();
 
   noStroke();
